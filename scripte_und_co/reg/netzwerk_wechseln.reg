@@ -1,0 +1,29 @@
+Windows Registry Editor Version 5.00
+
+;Wer das Netzwerk öfter zwischen dem privaten und öffentlichen wechseln muss, 
+;der kann sich auch einen Eintrag ins Kontextmenü vom Desktop hinzufügen. 
+;Somit braut man dann nur noch ein Rechtsklick auf den Desktop machen und kann 
+;so das Netzwerk ändern. Um die Änderung vornehmen zu können, muss man mit einem 
+;Administrator-Konto (Ein Konto mit administrativen Rechten) angemeldet sein. 
+
+[HKEY_CLASSES_ROOT\DesktopBackground\shell\NetworkLocation]
+"HasLUAShield"=""
+"MUIVerb"="Netzwerk ändern"
+"Position"="Middle"
+"SubCommands"=""
+
+
+[HKEY_CLASSES_ROOT\DesktopBackground\shell\NetworkLocation\shell\01menu]
+"HasLUAShield"=""
+"MUIVerb"="Privates Netzwerk"
+
+[HKEY_CLASSES_ROOT\DesktopBackground\shell\NetworkLocation\shell\01menu\command]
+@="PowerShell -windowstyle hidden -Command \"Start-Process cmd -ArgumentList '/s,/c,PowerShell $net = get-netconnectionprofile;Set-NetConnectionProfile -Name $net.Name -NetworkCategory Private' -Verb RunAs\""
+
+
+[HKEY_CLASSES_ROOT\DesktopBackground\shell\NetworkLocation\shell\02menu]
+"HasLUAShield"=""
+"MUIVerb"="Öffentliches Netzwerk"
+
+[HKEY_CLASSES_ROOT\DesktopBackground\shell\NetworkLocation\shell\02menu\command]
+@="PowerShell -windowstyle hidden -Command \"Start-Process cmd -ArgumentList '/s,/c,PowerShell $net = get-netconnectionprofile;Set-NetConnectionProfile -Name $net.Name -NetworkCategory Public' -Verb RunAs\""
